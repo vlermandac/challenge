@@ -2,3 +2,6 @@ memory-profiler==0.61.0
 pip==24.2
 python==3.12.7
 ipykernel==6.29.5
+emoji==2.14.0
+pandas==2.2.3
+networkx==3.3

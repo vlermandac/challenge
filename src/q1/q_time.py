@@ -2,13 +2,14 @@ from typing import List, Tuple
 from datetime import datetime
 import json
 from heapq import heappush, heappop
-import logging
-
-logging.basicConfig(level=logging.INFO)
-logger = logging.getLogger()
 
 
-def q1_time(file_path: str) -> List[Tuple[int, datetime.date, str]]:
+def q_time(file_path: str) -> List[Tuple[datetime.date, str, int]]:
+    """
+    Utilizamos heap. En promedio tiene inserciones más lentas que un diccionario
+    (aunque peor caso es más rápido), pero obtenemos los elementos más
+    frecuentes en tiempo O(log n) en lugar de O(n).
+    """
     # Diccionarios para contar tweets por fecha y por usuario
     date_freq = {}
     date_user_freq = {}
@@ -63,10 +64,7 @@ def q1_time(file_path: str) -> List[Tuple[int, datetime.date, str]]:
         # Obtenemos el usuario con mayor frecuencia para la fecha
         user_top = heappop(date_user_heap[date_top_name])
 
-        # logger.info(f"""Date: {date_top_name}, Date freq: {date_top_freq},
-        #             User: {user_top[1]}, User freq: {user_top[0] * -1}""")
-
         # Agregamos la fecha y usuario a la lista de resultados
-        result.append((date_top_freq, date_top_name, user_top[1]))
+        result.append((date_top_name, user_top[1], date_top_freq))
 
     return result

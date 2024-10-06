@@ -1,13 +1,14 @@
 from typing import List, Tuple
 from datetime import datetime
 import json
-import logging
-
-logging.basicConfig(level=logging.INFO)
-logger = logging.getLogger()
 
 
-def q1_memory(file_path: str) -> List[Tuple[int, datetime.date, str]]:
+def q_memory(file_path: str) -> List[Tuple[datetime.date, str, int]]:
+    """
+    Evitamos crear excesivas estructuras de datos en memoria. En lugar de eso, leemos el archivo
+    línea por línea y actualizamos los contadores a medida que leemos el archivo.
+    """
+    # Contadores de frecuencia de fechas y de usuarios por fecha
     date_freq = {}
     date_user_freq = {}
 
@@ -39,9 +40,6 @@ def q1_memory(file_path: str) -> List[Tuple[int, datetime.date, str]]:
     for date, _ in top_10_dates:
         # Obtener el usuario con más tweets en esa fecha y las frecuencias
         top_user = max(date_user_freq[date].items(), key=lambda x: x[1])[0]
-        top_user_freq = date_user_freq[date][top_user]
-        # logger.info(f"""Date: {date}, Frequency: {date_freq[date]},
-        #             Top User: {top_user}, Top User Frequency: {top_user_freq}""")
-        result.append((date_freq[date], date, top_user))
+        result.append((date, top_user, date_freq[date]))
 
     return result
